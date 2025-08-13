@@ -2,9 +2,11 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"log"
 	"net"
 	"net/http"
+	"os"
 
 	"github.com/AlexSamarskii/delivery_service/internal/config"
 	"github.com/AlexSamarskii/delivery_service/internal/middleware"
@@ -12,16 +14,22 @@ import (
 	"google.golang.org/grpc"
 )
 
+func setupDefaultOutput() {
+	f, _ := os.Create("gin.log")
+	gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
+}
+
 func main() {
 
+	setupDefaultOutput()
 	cfg := config.Load()
 
-	rout := gin.Default()
-	rout.Use(middleware.Recover())
+	server := gin.New()
+	server.Use(middleware.Recover(), middleware.Logger())
 
-	rout.GET("/health", func(c *gin.Context) {
-		c.JSON(http.StatusOK,
-			gin.H{"message": "Ok"},
+	server.GET("/health", func(ctx *gin.Context) {
+		ctx.JSON(http.StatusOK,
+			gin.H{"message": "OK"},
 		)
 	})
 
@@ -36,5 +44,5 @@ func main() {
 		log.Fatal(s.Serve(lis))
 	}()
 
-	rout.Run(fmt.Sprintf(":%s", cfg.Port))
+	server.Run(fmt.Sprintf(":%s", cfg.Port))
 }

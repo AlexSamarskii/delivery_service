@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+option go_package = "github.com/AlexSamarskii/delivery_service/internal/transport/controller/grpc/food;food";
+
+service FoodService {
+    // Получить список блюд по ID
+    rpc GetFoodsByIds(GetFoodsByIdsRequest) returns (GetFoodsResponse) {}
+
+    // Обновить блюдо по ID
+    rpc UpdateFood(UpdateFoodRequest) returns (UpdateFoodResponse) {}
+}
+
+// Запрос: список ID блюд
+message GetFoodsByIdsRequest {
+    repeated string food_ids = 1;  
+}
+
+// Ответ: список блюд
+message GetFoodsResponse {
+    repeated FoodDTO data = 1;
+}
+
+// Модель блюда
+message FoodDTO {
+    string id           = 1;
+    string name         = 2;
+    string description  = 3;
+    string image        = 4;  
+    float  price        = 5;
+    float  avg_point    = 6;  
+    int64  comment_qty  = 7;  
+    string category_id  = 8;
+    string restaurant_id = 9;
+    string status       = 10;
+}
+
+// Запрос на обновление блюда
+message UpdateFoodRequest {
+    string id              = 1;
+    string name            = 2;
+    string description     = 3;
+    string status          = 4;
+    string restaurant_id   = 5;
+    string category_id     = 6;
+    string image           = 7;  
+}
+
+// Ответ на обновление
+message UpdateFoodResponse {
+    string food_id = 1; 
+}

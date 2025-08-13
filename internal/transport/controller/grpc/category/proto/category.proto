@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+option go_package = "github.com/AlexSamarskii/delivery_service/internal/transport/controller/grpc/category;category";
+
+package category;
+
+// Сервис для работы с категориями
+service CategoryService {
+    // Получить категории по списку ID
+    rpc GetCategoriesByIds(GetCategoriesByIdsRequest) returns (GetCategoriesResponse);
+}
+
+// Запрос: список ID категорий
+message GetCategoriesByIdsRequest {
+    repeated string ids = 1;
+}
+
+// Ответ: список категорий
+message GetCategoriesResponse {
+    repeated CategoryDTO data = 1;
+}
+
+// Модель категории
+message CategoryDTO {
+    string id          = 1;
+    string name        = 2;
+    string description = 3;
+    string icon        = 4;     
+    string status      = 5;     
+}

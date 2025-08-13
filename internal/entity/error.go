@@ -3,12 +3,22 @@ package entity
 import "errors"
 
 var (
-	ErrBadRequest    = errors.New("bad request")
-	ErrForbidden     = errors.New("forbidden")
-	ErrUnauthorized  = errors.New("unauthorized")
-	ErrInternal      = errors.New("internal server error")
-	ErrAlreadyExists = errors.New("already exists")
-	ErrNotFound      = errors.New("not found")
+	ErrBadRequest                 = errors.New("bad request")
+	ErrForbidden                  = errors.New("forbidden")
+	ErrUnauthorized               = errors.New("unauthorized")
+	ErrInternal                   = errors.New("internal server error")
+	ErrAlreadyExists              = errors.New("already exists")
+	ErrNotFound                   = errors.New("not found")
+	ErrMissingAuthorizationHeader = errors.New("authorization header is required")
+	ErrInvalidAuthFormat          = errors.New("authorization header must start with 'Bearer '")
+	ErrEmptyToken                 = errors.New("token is empty")
+)
+
+var (
+	ErrFoodInvalidID         = errors.New("food ID is required")
+	ErrFoodInvalidStatus     = errors.New("status must be 'active', 'inactive', or 'deleted'")
+	ErrFoodInvalidRestaurant = errors.New("invalid restaurant ID")
+	ErrFoodInvalidCategory   = errors.New("invalid category ID")
 )
 
 const (
